@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ report.footer_title }}</title>
+  <style>
+  {{ master_css | safe }}
+  </style>
+</head>
+
+<body>
+  <div class="sheet">
+    <div class="page-frame">
+
+      <header class="report-header">
+
+        <div class="logo-cell">
+          {% if report.logo_path %}
+          <img src="{{ report.logo_path }}" class="logo-img">
+          {% else %}
+          <div class="logo-placeholder">LOGO</div>
+          {% endif %}
+        </div>
+
+        <div class="header-grid header-project">
+          <div class="info-cell label-cell">Project:</div>
+          <div class="info-cell value-cell">{{ report.project.project_name }}</div>
+
+          <div class="info-cell label-cell">Client:</div>
+          <div class="info-cell value-cell">{{ report.project.client }}</div>
+
+          <div class="info-cell label-cell">Project Engineer:</div>
+          <div class="info-cell value-cell">{{ report.project.project_engineer }}</div>
+
+          <div class="info-cell label-cell last-row">Project ID:</div>
+          <div class="info-cell value-cell last-row">{{ report.project.project_id }}</div>
+        </div>
+
+        <div class="header-grid header-test">
+          <div class="info-cell label-cell">Location ID:</div>
+          <div class="info-cell value-cell">{{ report.test.location_id }}</div>
+
+          <div class="info-cell label-cell">Test run:</div>
+          <div class="info-cell value-cell">{{ report.test.test_run }}</div>
+
+          <div class="info-cell label-cell">Date:</div>
+          <div class="info-cell value-cell">{{ report.test.test_date }}</div>
+
+          <div class="info-cell label-cell last-row">Tested by:</div>
+          <div class="info-cell value-cell last-row">{{ report.test.tested_by }}</div>
+        </div>
+
+      </header>
+
+      <section class="report-subheader">
+        <table class="subheader-table">
+          <tr>
+            <th>Location</th>
+            <th>Easting</th>
+            <td>{{ report.location.easting }}</td>
+            <th>Northing</th>
+            <td>{{ report.location.northing }}</td>
+          </tr>
+          <tr>
+            <th>Ground level (mAOD)</th>
+            <td colspan="2">{{ report.location.ground_level }}</td>
+            <th>Weather</th>
+            <td>{{ report.test.weather }}</td>
+          </tr>
+        </table>
+      </section>
+
+      <main class="report-main">
+        {% include report.canvas_template %}
+      </main>
+
+      <section class="report-subfooter">
+        <div class="subfooter-row">
+          <div class="subfooter-label">Remarks:</div>
+          <div class="subfooter-value">{{ report.subfooter.remarks }}</div>
+        </div>
+
+        <div class="subfooter-row">
+          <div class="subfooter-label">Instrument:</div>
+          <div class="subfooter-value">
+            {{ report.subfooter.instrument }}
+            {% if report.subfooter.methodology %}
+            &nbsp;&nbsp; Methodology: {{ report.subfooter.methodology }}
+            {% endif %}
+          </div>
+        </div>
+      </section>
+
+      <footer class="report-footer">
+
+        <div class="footer-left">
+          <div class="info-cell label-cell">Originator:</div>
+          <div class="info-cell value-cell">{{ report.signoff.originator }}</div>
+
+          <div class="info-cell label-cell">Status:</div>
+          <div class="info-cell value-cell">{{ report.signoff.status }}</div>
+
+          <div class="info-cell label-cell">Chk & App:</div>
+          <div class="info-cell value-cell">{{ report.signoff.checked_approved }}</div>
+
+          <div class="info-cell label-cell last-row">Date:</div>
+          <div class="info-cell value-cell last-row">{{ report.signoff.issue_date }}</div>
+        </div>
+
+        <div class="footer-title-box">
+          <div class="footer-title">{{ report.footer_title }}</div>
+        </div>
+
+        <div class="footer-right">
+          <div class="footer-right-row">
+            <div class="info-cell label-cell">Fig No:</div>
+            <div class="info-cell value-cell">{{ report.page.fig_no }}</div>
+          </div>
+
+          <div class="footer-right-row">
+            <div class="info-cell label-cell">Sheet:</div>
+            <div class="info-cell value-cell">{{ report.page.current }} of {{ report.page.total }}</div>
+          </div>
+        </div>
+
+      </footer>
+
+    </div>
+  </div>
+</body>
+</html>

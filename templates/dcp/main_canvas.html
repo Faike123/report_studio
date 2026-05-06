@@ -1,0 +1,155 @@
+<div class="dcp-canvas">
+
+  <div class="dcp-readings">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="section-title" colspan="3">DCP READINGS</th>
+        </tr>
+        <tr>
+          <th>Depth (m)</th>
+          <th>Blows</th>
+          <th>ICBR (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in report.canvas.readings %}
+        <tr>
+          <td>{{ row.depth_m }}</td>
+          <td>{{ row.blows }}</td>
+          <td>{{ row.icbr }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dcp-params">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="section-title" colspan="3">DCP PARAMETERS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label-col">Location</td>
+          <td class="unit-col"></td>
+          <td class="value-col">{{ report.test.location_id }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Data Rows</td>
+          <td class="unit-col"></td>
+          <td class="value-col">{{ report.canvas.row_count }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Source</td>
+          <td class="unit-col"></td>
+          <td class="value-col">DCPG / DCPT</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dcp-calcs">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="section-title" colspan="3">CALCULATED PARAMETERS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label-col">Maximum Depth</td>
+          <td class="unit-col">m</td>
+          <td class="value-col">{{ report.canvas.max_depth }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Minimum ICBR</td>
+          <td class="unit-col">%</td>
+          <td class="value-col">{{ report.canvas.min_icbr }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Average ICBR</td>
+          <td class="unit-col">%</td>
+          <td class="value-col">{{ report.canvas.avg_icbr }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Maximum ICBR</td>
+          <td class="unit-col">%</td>
+          <td class="value-col">{{ report.canvas.max_icbr }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Representative ICBR</td>
+          <td class="unit-col">%</td>
+          <td class="value-col">{{ report.canvas.rep_icbr }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dcp-results">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="section-title" colspan="3">RESULTS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label-col">Derived ICBR</td>
+          <td class="unit-col">%</td>
+          <td class="value-col">{{ report.canvas.rep_icbr }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dcp-summary">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="section-title" colspan="3">DEPTH SUMMARY</th>
+        </tr>
+        <tr>
+          <th>From (m)</th>
+          <th>To (m)</th>
+          <th>ICBR (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in report.canvas.summary_rows %}
+        <tr>
+          <td>{{ row.from_m }}</td>
+          <td>{{ row.to_m }}</td>
+          <td>{{ row.icbr }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dcp-plot">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="section-title">DCP / ICBR PLOT</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="plot-cell">
+            <div class="plot-box">
+              {% if report.canvas.plot_image %}
+              <img src="{{ report.canvas.plot_image }}" class="plot-img">
+              {% else %}
+              <span>{{ report.canvas.plot_note }}</span>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

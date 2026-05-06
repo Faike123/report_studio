@@ -1,0 +1,228 @@
+@page {
+  size: A4;
+  margin: 0;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: white;
+  font-family: Arial, sans-serif;
+  font-size: 7pt;
+  color: #111;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.sheet {
+  width: 210mm;
+  height: 297mm;
+  padding: 8mm;
+  page-break-after: always;
+  overflow: hidden;
+}
+
+.page {
+  width: 194mm;
+  height: 281mm;
+  border: 0.35mm solid #111;
+  display: grid;
+  grid-template-rows: 26mm 11mm 178mm 22mm 44mm;
+  overflow: hidden;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 36mm 88mm 70mm;
+  border-bottom: 0.25mm solid #111;
+}
+
+.logo {
+  border-right: 0.25mm solid #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.meta,
+.test-meta {
+  display: grid;
+  grid-template-columns: 31mm 1fr;
+  min-width: 0;
+}
+
+.meta {
+  border-right: 0.25mm solid #111;
+}
+
+.cell {
+  min-height: 5mm;
+  border-bottom: 0.18mm solid #111;
+  padding: 0.65mm 0.85mm;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.label {
+  font-weight: bold;
+  background: #f6f6f6;
+}
+
+.subheader {
+  border-bottom: 0.25mm solid #111;
+  overflow: hidden;
+}
+
+.subheader table,
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.subheader th,
+.subheader td,
+.report-table th,
+.report-table td {
+  border: 0.18mm solid #111;
+  padding: 0.55mm 0.65mm;
+  line-height: 1.0;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.block-title {
+  background: #003F23;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.2px;
+}
+
+.main {
+  border-bottom: 0.25mm solid #111;
+  padding: 1.2mm;
+  overflow: hidden;
+}
+
+.main-grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 55mm 1fr;
+  grid-template-rows: 24mm 57mm 10mm 35mm 45mm;
+  gap: 1.1mm;
+  overflow: hidden;
+}
+
+.readings {
+  grid-column: 1;
+  grid-row: 1 / span 5;
+  overflow: hidden;
+}
+
+.readings-table {
+  font-size: 6.25pt;
+}
+
+.readings-table th,
+.readings-table td {
+  padding: 0.38mm 0.45mm;
+  line-height: 0.95;
+  text-align: center;
+}
+
+.pit-block {
+  grid-column: 2;
+  grid-row: 1;
+  overflow: hidden;
+}
+
+.calc-block {
+  grid-column: 2;
+  grid-row: 2;
+  overflow: hidden;
+}
+
+.result-block {
+  grid-column: 2;
+  grid-row: 3;
+  overflow: hidden;
+}
+
+.strata-block {
+  grid-column: 2;
+  grid-row: 4;
+  overflow: hidden;
+}
+
+.plot-block {
+  grid-column: 2;
+  grid-row: 5;
+  overflow: hidden;
+}
+
+.plot-img {
+  width: 100%;
+  height: 38mm;
+  object-fit: contain;
+  display: block;
+}
+
+.subfooter {
+  border-bottom: 0.25mm solid #111;
+  display: grid;
+  grid-template-rows: 11mm 11mm;
+  overflow: hidden;
+}
+
+.subfooter-row {
+  display: grid;
+  grid-template-columns: 28mm 1fr;
+  overflow: hidden;
+}
+
+.subfooter-row:first-child {
+  border-bottom: 0.18mm solid #111;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: 82mm 67mm 45mm;
+  overflow: hidden;
+}
+
+.footer-left {
+  display: grid;
+  grid-template-columns: 25mm 1fr;
+}
+
+.footer-left .cell {
+  min-height: 11mm;
+}
+
+.footer-title {
+  border-left: 0.25mm solid #111;
+  border-right: 0.25mm solid #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11.5pt;
+  font-weight: bold;
+  text-align: center;
+  padding: 1mm;
+}
+
+.footer-right {
+  display: grid;
+  grid-template-columns: 18mm 1fr;
+}
+
+.footer-right .cell {
+  min-height: 22mm;
+}

@@ -1,0 +1,463 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@page {
+  size: A4;
+  margin: 0;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 210mm;
+  height: 297mm;
+  background: white;
+  font-family: Arial, sans-serif;
+  font-size: 7.1pt;
+  color: #000;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.sheet {
+  width: 210mm;
+  height: 297mm;
+  padding: 8mm;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+.page {
+  width: 194mm;
+  height: 281mm;
+  border: 0.35mm solid #111;
+  display: grid;
+  grid-template-rows: 28mm 12mm 178mm 23mm 40mm;
+  overflow: hidden;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 36mm 88mm 70mm;
+  border-bottom: 0.25mm solid #111;
+  overflow: hidden;
+}
+
+.logo {
+  border-right: 0.25mm solid #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.meta,
+.test-meta {
+  display: grid;
+  grid-template-columns: 32mm 1fr;
+  overflow: hidden;
+}
+
+.meta {
+  border-right: 0.25mm solid #111;
+}
+
+.cell {
+  border-bottom: 0.18mm solid #111;
+  padding: 0.65mm 0.85mm;
+  line-height: 1.05;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.label {
+  font-weight: bold;
+  background: #f2f2f2;
+}
+
+.subheader {
+  border-bottom: 0.25mm solid #111;
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th,
+td {
+  border: 0.18mm solid #111;
+  padding: 0.45mm 0.6mm;
+  line-height: 1.02;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+th {
+  font-weight: bold;
+}
+
+.block-title {
+  background: #003F23;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.2px;
+}
+
+.main {
+  border-bottom: 0.25mm solid #111;
+  padding: 1.2mm;
+  overflow: hidden;
+}
+
+.main-grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 55mm 1fr;
+  grid-template-rows: 24mm 59mm 10mm 33mm 45mm;
+  gap: 1.1mm;
+  overflow: hidden;
+}
+
+.readings {
+  grid-column: 1;
+  grid-row: 1 / span 5;
+  overflow: hidden;
+}
+
+.readings table {
+  font-size: 6.15pt;
+}
+
+.readings th,
+.readings td {
+  padding: 0.32mm 0.35mm;
+  line-height: 0.93;
+  text-align: center;
+}
+
+.pit-block {
+  grid-column: 2;
+  grid-row: 1;
+  overflow: hidden;
+}
+
+.calc-block {
+  grid-column: 2;
+  grid-row: 2;
+  overflow: hidden;
+}
+
+.calc-block table {
+  font-size: 6.8pt;
+}
+
+.calc-block td {
+  padding: 0.38mm 0.55mm;
+}
+
+.result-block {
+  grid-column: 2;
+  grid-row: 3;
+  overflow: hidden;
+}
+
+.strata-block {
+  grid-column: 2;
+  grid-row: 4;
+  overflow: hidden;
+}
+
+.plot-block {
+  grid-column: 2;
+  grid-row: 5;
+  overflow: hidden;
+}
+
+.plot-img {
+  width: 100%;
+  height: 38mm;
+  object-fit: contain;
+  display: block;
+}
+
+.subfooter {
+  border-bottom: 0.25mm solid #111;
+  display: grid;
+  grid-template-rows: 11.5mm 11.5mm;
+  overflow: hidden;
+}
+
+.subfooter-row {
+  display: grid;
+  grid-template-columns: 28mm 1fr;
+  overflow: hidden;
+}
+
+.subfooter-row:first-child {
+  border-bottom: 0.18mm solid #111;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: 82mm 67mm 45mm;
+  overflow: hidden;
+}
+
+.footer-left {
+  display: grid;
+  grid-template-columns: 25mm 1fr;
+}
+
+.footer-left .cell {
+  min-height: 10mm;
+}
+
+.footer-title {
+  border-left: 0.25mm solid #111;
+  border-right: 0.25mm solid #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1mm;
+  text-align: center;
+  font-size: 11.5pt;
+  font-weight: bold;
+}
+
+.footer-right {
+  display: grid;
+  grid-template-columns: 18mm 1fr;
+}
+
+.footer-right .cell {
+  min-height: 20mm;
+}
+
+.no-bottom {
+  border-bottom: none;
+}
+</style>
+</head>
+
+<body>
+<div class="sheet">
+  <div class="page">
+
+    <section class="header">
+      <div class="logo">LOGO</div>
+
+      <div class="meta">
+        <div class="cell label">Project:</div>
+        <div class="cell">{{ report.project.project_name }}</div>
+
+        <div class="cell label">Client:</div>
+        <div class="cell">{{ report.project.client }}</div>
+
+        <div class="cell label">Project Engineer:</div>
+        <div class="cell">{{ report.project.project_engineer }}</div>
+
+        <div class="cell label no-bottom">Project ID:</div>
+        <div class="cell no-bottom">{{ report.project.project_id }}</div>
+      </div>
+
+      <div class="test-meta">
+        <div class="cell label">Location ID:</div>
+        <div class="cell">{{ report.test.location_id }}</div>
+
+        <div class="cell label">Test run:</div>
+        <div class="cell">{{ report.test.test_run }}</div>
+
+        <div class="cell label">Date:</div>
+        <div class="cell">{{ report.test.test_date }}</div>
+
+        <div class="cell label no-bottom">Tested by:</div>
+        <div class="cell no-bottom">{{ report.test.tested_by }}</div>
+      </div>
+    </section>
+
+    <section class="subheader">
+      <table>
+        <tr>
+          <th>Location</th>
+          <th>Easting</th>
+          <td>{{ report.location.easting }}</td>
+          <th>Northing</th>
+          <td>{{ report.location.northing }}</td>
+        </tr>
+        <tr>
+          <th>Ground level (mAOD)</th>
+          <td colspan="2">{{ report.location.ground_level }}</td>
+          <th>Weather</th>
+          <td>{{ report.test.weather }}</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="main">
+      <div class="main-grid">
+
+        <div class="readings">
+          <table>
+            <tr>
+              <th class="block-title" colspan="2">TEST READINGS</th>
+            </tr>
+            <tr>
+              <th>Time (min)</th>
+              <th>Depth (mbgl)</th>
+            </tr>
+            {% for row in report.readings[:36] %}
+            <tr>
+              <td>{{ row.time_min }}</td>
+              <td>{{ row.depth_mbgl }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+
+        <div class="pit-block">
+          <table>
+            <tr>
+              <th class="block-title" colspan="3">PIT PARAMETERS</th>
+            </tr>
+            <tr>
+              <td>Length</td>
+              <td>m</td>
+              <td>{{ report.pit.length_m }}</td>
+            </tr>
+            <tr>
+              <td>Width</td>
+              <td>m</td>
+              <td>{{ report.pit.width_m }}</td>
+            </tr>
+            <tr>
+              <td>Depth</td>
+              <td>m</td>
+              <td>{{ report.pit.depth_m }}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="calc-block">
+          <table>
+            <tr>
+              <th class="block-title" colspan="3">CALCULATED PARAMETERS</th>
+            </tr>
+            <tr><td>Maximum Effective Depth</td><td>m</td><td>{{ report.calculations.max_effective_depth }}</td></tr>
+            <tr><td>75% Effective Depth</td><td>m</td><td>{{ report.calculations.depth_75 }}</td></tr>
+            <tr><td>25% Effective Depth</td><td>m</td><td>{{ report.calculations.depth_25 }}</td></tr>
+            <tr><td>Effective Storage Volume</td><td>m³</td><td>{{ report.calculations.storage_volume }}</td></tr>
+            <tr><td>Vp75–25</td><td>m³</td><td>{{ report.calculations.vp_75_25 }}</td></tr>
+            <tr><td>Surface Area as50</td><td>m²</td><td>{{ report.calculations.as50 }}</td></tr>
+            <tr><td>Time for 75%</td><td>min</td><td>{{ report.calculations.time_75 }}</td></tr>
+            <tr><td>Time for 25%</td><td>min</td><td>{{ report.calculations.time_25 }}</td></tr>
+            <tr><td>t75–25</td><td>s</td><td>{{ report.calculations.t_75_25 }}</td></tr>
+          </table>
+        </div>
+
+        <div class="result-block">
+          <table>
+            <tr>
+              <th class="block-title" colspan="3">RESULTS</th>
+            </tr>
+            <tr>
+              <td>Infiltration Rate (f)</td>
+              <td>m/s</td>
+              <td>{{ report.calculations.infiltration_rate }}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="strata-block">
+          <table>
+            <tr>
+              <th class="block-title" colspan="3">STRATA DESCRIPTION</th>
+            </tr>
+            <tr>
+              <th>From (mbgl)</th>
+              <th>To (mbgl)</th>
+              <th>Strata</th>
+            </tr>
+            {% for row in report.strata %}
+            <tr>
+              <td>{{ row.from }}</td>
+              <td>{{ row.to }}</td>
+              <td>{{ row.description }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+
+        <div class="plot-block">
+          <table>
+            <tr>
+              <th class="block-title">TEST PLOT</th>
+            </tr>
+            <tr>
+              <td><img class="plot-img" src="{{ plot_path }}"></td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="subfooter">
+      <div class="subfooter-row">
+        <div class="cell label">Remarks:</div>
+        <div class="cell">{{ report.subfooter.remarks }}</div>
+      </div>
+
+      <div class="subfooter-row">
+        <div class="cell label no-bottom">Instrument:</div>
+        <div class="cell no-bottom">
+          {{ report.subfooter.instrument }}
+          {% if report.subfooter.methodology %}
+          &nbsp;&nbsp; Methodology: {{ report.subfooter.methodology }}
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <section class="footer">
+      <div class="footer-left">
+        <div class="cell label">Originator:</div>
+        <div class="cell">{{ report.signoff.originator }}</div>
+
+        <div class="cell label">Status:</div>
+        <div class="cell">{{ report.signoff.status }}</div>
+
+        <div class="cell label">Chk & App:</div>
+        <div class="cell">{{ report.signoff.checked_approved }}</div>
+
+        <div class="cell label no-bottom">Date:</div>
+        <div class="cell no-bottom">{{ report.signoff.issue_date }}</div>
+      </div>
+
+      <div class="footer-title">
+        SOAKAWAY BRE 365 TEST
+      </div>
+
+      <div class="footer-right">
+        <div class="cell label">Fig No:</div>
+        <div class="cell">{{ report.page.fig_no }}</div>
+
+        <div class="cell label no-bottom">Sheet:</div>
+        <div class="cell no-bottom">{{ report.page.current }} of {{ report.page.total }}</div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>

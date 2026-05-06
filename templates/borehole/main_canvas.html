@@ -1,0 +1,7 @@
+<div class="borehole-engine-canvas">
+  {% if report.canvas.log_svg %}
+  <img src="{{ report.canvas.log_svg }}" class="borehole-engine-img">
+  {% else %}
+  <div class="borehole-engine-placeholder">No borehole log image generated.</div>
+  {% endif %}
+</div>

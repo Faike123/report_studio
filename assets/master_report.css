@@ -1,0 +1,563 @@
+@page {
+  size: A4;
+  margin: 0;
+}
+
+html,
+body {
+  width: 210mm;
+  height: 297mm;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  color: #000000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 7.15pt;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.sheet {
+  width: 210mm;
+  height: 297mm;
+  padding: 7mm;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+.page-frame {
+  width: 196mm;
+  height: 283mm;
+  border: 0.35mm solid #111;
+  display: grid;
+  grid-template-rows:
+    21mm   /* header */
+    9mm    /* subheader */
+    211mm  /* main */
+    12mm   /* subfooter */
+    30mm;  /* footer */
+  overflow: hidden;
+}
+
+/* ============================= */
+/* SHARED HEADER                 */
+/* ============================= */
+
+.report-header {
+  display: grid;
+  grid-template-columns: 34mm 88mm 74mm;
+  border-bottom: 0.25mm solid #111;
+  overflow: hidden;
+}
+
+.logo-cell {
+  border-right: 0.25mm solid #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.logo-placeholder {
+  width: 22mm;
+  height: 14mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.logo-img {
+  max-width: 28mm;
+  max-height: 16mm;
+  object-fit: contain;
+}
+
+.header-grid {
+  display: grid;
+  grid-template-columns: 31mm 1fr;
+  grid-template-rows: repeat(4, 5.25mm);
+  overflow: hidden;
+}
+
+.header-project {
+  border-right: 0.25mm solid #111;
+}
+
+.info-cell {
+  border-bottom: 0.18mm solid #111;
+  padding: 0.42mm 0.75mm;
+  line-height: 1.02;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+}
+
+.info-cell.last-row {
+  border-bottom: none;
+}
+
+.label-cell {
+  font-weight: bold;
+  background: #f2f2f2;
+}
+
+.value-cell {
+  background: #ffffff;
+}
+
+/* ============================= */
+/* SHARED SUBHEADER              */
+/* ============================= */
+
+.report-subheader {
+  border-bottom: 0.25mm solid #111;
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th,
+td {
+  border: 0.18mm solid #111;
+  padding: 0.34mm 0.52mm;
+  line-height: 1.0;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+th {
+  font-weight: bold;
+}
+
+.subheader-table th,
+.subheader-table td {
+  height: 4.5mm;
+  text-align: center;
+}
+
+.subheader-table th {
+  background: #f2f2f2;
+}
+
+/* ============================= */
+/* SHARED MAIN AREA              */
+/* ============================= */
+
+.report-main {
+  border-bottom: 0.25mm solid #111;
+  padding: 0.9mm;
+  overflow: hidden;
+}
+
+.section-title {
+  background: #003f23;
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.report-table th,
+.report-table td {
+  border: 0.18mm solid #111;
+  padding: 0.30mm 0.45mm;
+  line-height: 0.98;
+  overflow: hidden;
+}
+
+.label-col {
+  width: 50%;
+}
+
+.unit-col {
+  width: 24%;
+  text-align: center;
+}
+
+.value-col {
+  width: 26%;
+}
+
+.numeric {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+/* ============================= */
+/* SOAKAWAY CANVAS               */
+/* ============================= */
+
+.soakaway-canvas {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 56mm 1fr;
+  grid-template-rows:
+    20mm
+    52mm
+    8mm
+    18mm
+    108mm;
+  gap: 0.65mm;
+  overflow: hidden;
+}
+
+.soakaway-readings {
+  grid-column: 1;
+  grid-row: 1 / span 5;
+  overflow: hidden;
+}
+
+.soakaway-readings table {
+  font-size: 6.05pt;
+}
+
+.soakaway-readings th,
+.soakaway-readings td {
+  padding: 0.22mm 0.32mm;
+  line-height: 0.90;
+  text-align: center;
+}
+
+.soakaway-pit {
+  grid-column: 2;
+  grid-row: 1;
+  overflow: hidden;
+}
+
+.soakaway-calcs {
+  grid-column: 2;
+  grid-row: 2;
+  overflow: hidden;
+}
+
+.soakaway-calcs table {
+  font-size: 6.75pt;
+}
+
+.soakaway-calcs th,
+.soakaway-calcs td {
+  padding: 0.28mm 0.45mm;
+}
+
+.soakaway-results {
+  grid-column: 2;
+  grid-row: 3;
+  overflow: hidden;
+}
+
+.soakaway-strata {
+  grid-column: 2;
+  grid-row: 4;
+  overflow: hidden;
+}
+
+.soakaway-strata table {
+  font-size: 6.75pt;
+}
+
+.soakaway-plot {
+  grid-column: 2;
+  grid-row: 5;
+  overflow: hidden;
+}
+
+.plot-cell {
+  height: 101mm;
+  padding: 0;
+  overflow: hidden;
+}
+
+.plot-box {
+  width: 100%;
+  height: 101mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.plot-img {
+  width: 100%;
+  height: 99mm;
+  object-fit: contain;
+  display: block;
+}
+
+/* ============================= */
+/* DCP CANVAS                    */
+/* ============================= */
+
+.dcp-canvas {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 58mm 1fr;
+  grid-template-rows:
+    20mm
+    38mm
+    8mm
+    18mm
+    122mm;
+  gap: 0.65mm;
+  overflow: hidden;
+}
+
+.dcp-readings {
+  grid-column: 1;
+  grid-row: 1 / span 5;
+  overflow: hidden;
+}
+
+.dcp-readings table {
+  font-size: 6.1pt;
+}
+
+.dcp-readings th,
+.dcp-readings td {
+  padding: 0.24mm 0.34mm;
+  line-height: 0.92;
+  text-align: center;
+}
+
+.dcp-params {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.dcp-calcs {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.dcp-results {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.dcp-summary {
+  grid-column: 2;
+  grid-row: 4;
+}
+
+.dcp-plot {
+  grid-column: 2;
+  grid-row: 5;
+}
+
+.dcp-calcs table,
+.dcp-summary table {
+  font-size: 6.8pt;
+}
+
+/* ============================= */
+/* SHARED SUBFOOTER              */
+/* ============================= */
+
+.report-subfooter {
+  border-bottom: 0.25mm solid #111;
+  display: grid;
+  grid-template-rows: 6mm 6mm;
+  overflow: hidden;
+}
+
+.subfooter-row {
+  display: grid;
+  grid-template-columns: 26mm 1fr;
+  overflow: hidden;
+}
+
+.subfooter-row:first-child {
+  border-bottom: 0.18mm solid #111;
+}
+
+.subfooter-label {
+  border-right: 0.18mm solid #111;
+  padding: 0.35mm 0.75mm;
+  font-weight: bold;
+  background: #f2f2f2;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.subfooter-value {
+  padding: 0.35mm 0.75mm;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* ============================= */
+/* SHARED FOOTER                 */
+/* ============================= */
+
+.report-footer {
+  display: grid;
+  grid-template-columns: 80mm 70mm 46mm;
+  overflow: hidden;
+}
+
+.footer-left {
+  display: grid;
+  grid-template-columns: 24mm 1fr;
+  grid-template-rows: repeat(4, 7.5mm);
+  overflow: hidden;
+}
+
+.footer-left .info-cell {
+  min-height: 0;
+}
+
+.footer-title-box {
+  border-left: 0.25mm solid #111;
+  border-right: 0.25mm solid #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6mm;
+  overflow: hidden;
+}
+
+.footer-title {
+  font-size: 9.6pt;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.02;
+}
+
+.footer-right {
+  display: grid;
+  grid-template-rows: 15mm 15mm;
+  overflow: hidden;
+}
+
+.footer-right-row {
+  display: grid;
+  grid-template-columns: 18mm 1fr;
+  overflow: hidden;
+}
+
+.footer-right-row:first-child .info-cell {
+  border-bottom: 0.18mm solid #111;
+}
+
+.footer-right-row:last-child .info-cell {
+  border-bottom: none;
+}
+
+.footer-right .info-cell {
+  min-height: 0;
+  padding: 0.42mm 0.75mm;
+}
+
+/* ============================= */
+/* PRINT HARDENING               */
+/* ============================= */
+
+.sheet,
+.page-frame,
+.report-header,
+.report-subheader,
+.report-main,
+.report-subfooter,
+.report-footer {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+img {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* ============================= */
+/* BOREHOLE LOG CANVAS           */
+/* ============================= */
+
+.borehole-canvas {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows:
+    20mm
+    124mm
+    38mm
+    24mm;
+  gap: 0.65mm;
+  overflow: hidden;
+}
+
+.borehole-summary {
+  grid-row: 1;
+  overflow: hidden;
+}
+
+.borehole-log {
+  grid-row: 2;
+  overflow: hidden;
+}
+
+.borehole-log-table {
+  font-size: 6.7pt;
+}
+
+.borehole-log-table th,
+.borehole-log-table td {
+  padding: 0.32mm 0.45mm;
+}
+
+.borehole-samples {
+  grid-row: 3;
+  overflow: hidden;
+}
+
+.borehole-water {
+  grid-row: 4;
+  overflow: hidden;
+}
+
+/* ============================= */
+/* BOREHOLE STRIP ENGINE         */
+/* ============================= */
+
+.borehole-engine-canvas {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.borehole-engine-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.borehole-engine-placeholder {
+  width: 100%;
+  height: 100%;
+  border: 0.18mm solid #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

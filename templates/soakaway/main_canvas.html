@@ -1,0 +1,173 @@
+<div class="soakaway-canvas">
+
+  <div class="soakaway-readings">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="section-title" colspan="2">TEST READINGS</th>
+        </tr>
+        <tr>
+          <th>Time (min)</th>
+          <th>Depth (mbgl)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in report.canvas.readings %}
+        <tr>
+          <td>{{ row.time_min }}</td>
+          <td>{{ row.depth_mbgl }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="soakaway-pit">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="section-title" colspan="3">PIT PARAMETERS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label-col">Length</td>
+          <td class="unit-col">m</td>
+          <td class="value-col">{{ report.pit.length_m }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Width</td>
+          <td class="unit-col">m</td>
+          <td class="value-col">{{ report.pit.width_m }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Depth</td>
+          <td class="unit-col">m</td>
+          <td class="value-col">{{ report.pit.depth_m }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="soakaway-calcs">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="section-title" colspan="3">CALCULATED PARAMETERS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label-col">Maximum Effective Depth</td>
+          <td class="unit-col">m</td>
+          <td class="value-col">{{ report.calculations.max_effective_depth }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">75% Effective Depth</td>
+          <td class="unit-col">m</td>
+          <td class="value-col">{{ report.calculations.depth_75 }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">25% Effective Depth</td>
+          <td class="unit-col">m</td>
+          <td class="value-col">{{ report.calculations.depth_25 }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Effective Storage Volume</td>
+          <td class="unit-col">m³</td>
+          <td class="value-col">{{ report.calculations.storage_volume }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Vp75–25</td>
+          <td class="unit-col">m³</td>
+          <td class="value-col">{{ report.calculations.vp_75_25 }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Surface Area as50</td>
+          <td class="unit-col">m²</td>
+          <td class="value-col">{{ report.calculations.as50 }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Time for 75%</td>
+          <td class="unit-col">min</td>
+          <td class="value-col">{{ report.calculations.time_75 }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Time for 25%</td>
+          <td class="unit-col">min</td>
+          <td class="value-col">{{ report.calculations.time_25 }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">t75–25</td>
+          <td class="unit-col">s</td>
+          <td class="value-col">{{ report.calculations.t_75_25 }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="soakaway-results">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="section-title" colspan="3">RESULTS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label-col">Infiltration Rate (f)</td>
+          <td class="unit-col">m/s</td>
+          <td class="value-col">{{ report.calculations.infiltration_rate }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="soakaway-strata">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="section-title" colspan="3">STRATA DESCRIPTION</th>
+        </tr>
+        <tr>
+          <th>From (mbgl)</th>
+          <th>To (mbgl)</th>
+          <th>Strata</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in report.canvas.strata %}
+        <tr>
+          <td class="numeric">{{ row.from_m }}</td>
+          <td class="numeric">{{ row.to_m }}</td>
+          <td class="text-left">{{ row.description }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="soakaway-plot">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="section-title">TEST PLOT</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="plot-cell">
+            <div class="plot-box">
+              {% if report.canvas.plot_image %}
+              <img src="{{ report.canvas.plot_image }}" class="plot-img">
+              {% else %}
+              <span>{{ report.canvas.plot_note }}</span>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
