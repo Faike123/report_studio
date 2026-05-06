@@ -413,48 +413,67 @@ th {
 
 .report-footer {
   display: grid;
-  grid-template-columns: 80mm 70mm 46mm;
+  grid-template-columns: 62mm 104mm 30mm;
   overflow: hidden;
 }
 
+/* Left sign-off block: 4 equal rows */
 .footer-left {
   display: grid;
-  grid-template-columns: 24mm 1fr;
+  grid-template-columns: 23mm 1fr;
   grid-template-rows: repeat(4, 7.5mm);
   overflow: hidden;
 }
 
-.footer-left .info-cell {
+/* Remove footer grey backfill and align text cleanly */
+.footer-left .info-label,
+.footer-left .info-value,
+.footer-left .info-cell,
+.footer-right .info-label,
+.footer-right .info-value,
+.footer-right .info-cell {
+  background: #ffffff !important;
   min-height: 0;
+  display: flex;
+  align-items: center;
+  padding: 0.34mm 0.7mm;
+  line-height: 1.05;
 }
 
+/* Centre title block: deliberately wide */
 .footer-title-box {
   border-left: 0.25mm solid #111;
   border-right: 0.25mm solid #111;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.6mm;
+  padding: 0.6mm 1.2mm;
   overflow: hidden;
+  background: #ffffff;
 }
 
 .footer-title {
-  font-size: 9.6pt;
-  font-weight: bold;
+  font-size: 10.8pt;
+  font-weight: 800;
   text-align: center;
-  line-height: 1.02;
+  line-height: 1.0;
+  letter-spacing: 0.1px;
+  white-space: nowrap;
 }
 
+/* Right block: Fig No = 3 rows high, Sheet = 1 row high */
 .footer-right {
   display: grid;
-  grid-template-rows: 15mm 15mm;
+  grid-template-rows: 22.5mm 7.5mm;
   overflow: hidden;
+  background: #ffffff;
 }
 
 .footer-right-row {
   display: grid;
-  grid-template-columns: 18mm 1fr;
+  grid-template-columns: 15mm 1fr;
   overflow: hidden;
+  background: #ffffff;
 }
 
 .footer-right-row:first-child .info-cell {
@@ -465,10 +484,17 @@ th {
   border-bottom: none;
 }
 
-.footer-right .info-cell {
-  min-height: 0;
-  padding: 0.42mm 0.75mm;
+/* Keep footer text compact */
+.footer-right .info-label,
+.footer-left .info-label {
+  font-weight: 700;
 }
+
+.footer-right .info-value,
+.footer-left .info-value {
+  font-weight: 400;
+}
+
 
 /* ============================= */
 /* PRINT HARDENING               */

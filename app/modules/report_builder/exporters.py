@@ -40,7 +40,13 @@ def export_confirmed_items(
             updated_items.append(new_item)
             continue
 
-        if item.get("status") not in ("confirmed", "exported"):
+        exportable_without_pdf = item.get("item_type") in (
+            "ags_group_data",
+            "ags_location_group_data",
+            "full_ags_audit",
+        )
+
+        if item.get("status") not in ("confirmed", "exported") and not exportable_without_pdf:
             updated_items.append(new_item)
             continue
 
@@ -76,6 +82,11 @@ def export_confirmed_items(
 
             elif item["item_type"] == "full_ags_audit":
                 pdf_path = export_full_ags_report(ags_files, project_dir / "audit")
+
+            elif item["item_type"] in ("ags_group_data", "ags_location_group_data"):
+                # Inventory/export-only items do not have a PDF engine yet.
+                # They are still valid data items and will be included in AGS exports/audit.
+                pdf_path = None
 
             if pdf_path:
                 project_pdfs[project_id].append(Path(pdf_path))

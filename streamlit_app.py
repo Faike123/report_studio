@@ -20,6 +20,8 @@ from app.modules.borehole.service import export_pdf as export_borehole_pdf
 from app.modules.borehole.strip_registry import default_strip_layout, registry_rows, categories
 from app.modules.full_report.service import export_full_ags_report
 from app.modules.report_builder.ui import render_report_builder_page
+from app.modules.data_inventory.ui import render_data_inventory_page
+from app.modules.data_dashboard.ui import render_data_dashboard_page
 
 from app.modules.soakaway.from_xlsx import parse_soakaway_xlsx
 from app.modules.soakaway.from_ags_csv import reports_from_flowfinity
@@ -291,6 +293,8 @@ mode = st.sidebar.radio(
     [
         "Project Import",
         "Project Overview",
+        "Data Inventory",
+        "Data Dashboard",
         "Report Builder",
         "Soakaway Reports",
         "DCP Dashboard",
@@ -352,6 +356,14 @@ elif mode == "Project Overview":
             st.subheader("Locations from first ZIP")
             parsed = st.session_state.parsed_zips[0]
             st.dataframe(pd.DataFrame(location_summary(parsed)), use_container_width=True)
+
+
+elif mode == "Data Inventory":
+    render_data_inventory_page()
+
+
+elif mode == "Data Dashboard":
+    render_data_dashboard_page()
 
 
 elif mode == "Report Builder":

@@ -213,9 +213,17 @@ def render_report_builder_page(output_root: Path):
     if selected_count == 0:
         st.warning("No items selected for reporting yet.")
     elif confirmed_count == selected_count:
-        st.success("All selected items are confirmed and ready to export.")
+        st.success("All selected review items are confirmed and ready to export.")
     else:
-        st.info("Continue reviewing selected items. Confirm each item before final export.")
+        st.info("Continue reviewing selected PDF report items. Export-only AGS groups are tracked separately and do not need manual review.")
+
+    with st.expander("Detected data categories"):
+        cat_rows = [
+            {"category": k, "count": v}
+            for k, v in sorted(summary.get("by_category", {}).items())
+        ]
+        if cat_rows:
+            st.dataframe(pd.DataFrame(cat_rows), use_container_width=True)
 
     st.subheader("Select Report Package")
 
@@ -224,20 +232,27 @@ def render_report_builder_page(output_root: Path):
 
     project_filter_options = ["All"] + sorted(table_df["project_id"].dropna().unique().tolist())
     type_filter_options = ["All"] + sorted(table_df["item_type"].dropna().unique().tolist())
+    category_filter_options = ["All"] + sorted(table_df["data_category"].dropna().unique().tolist())
 
-    fc1, fc2, fc3, fc4 = st.columns(4)
+    fc1, fc2, fc3, fc4, fc5 = st.columns(5)
 
     with fc1:
         project_filter = st.selectbox("Project filter", project_filter_options, key="rb_project_filter")
 
     with fc2:
-        type_filter = st.selectbox("Item type filter", type_filter_options, key="rb_type_filter")
+        category_filter = st.selectbox("Data category", category_filter_options, key="rb_category_filter")
 
     with fc3:
+        type_filter = st.selectbox("Item type filter", type_filter_options, key="rb_type_filter")
+
+    with fc4:
         if st.button("Select all visible"):
             visible_indices = table_df.index.tolist()
             if project_filter != "All":
                 visible_indices = table_df[table_df["project_id"] == project_filter].index.tolist()
+            if category_filter != "All":
+                temp = table_df.loc[visible_indices]
+                visible_indices = temp[temp["data_category"] == category_filter].index.tolist()
             if type_filter != "All":
                 temp = table_df.loc[visible_indices]
                 visible_indices = temp[temp["item_type"] == type_filter].index.tolist()
@@ -247,11 +262,14 @@ def render_report_builder_page(output_root: Path):
 
             st.success("Visible items selected.")
 
-    with fc4:
+    with fc5:
         if st.button("Exclude all visible"):
             visible_indices = table_df.index.tolist()
             if project_filter != "All":
                 visible_indices = table_df[table_df["project_id"] == project_filter].index.tolist()
+            if category_filter != "All":
+                temp = table_df.loc[visible_indices]
+                visible_indices = temp[temp["data_category"] == category_filter].index.tolist()
             if type_filter != "All":
                 temp = table_df.loc[visible_indices]
                 visible_indices = temp[temp["item_type"] == type_filter].index.tolist()
@@ -269,6 +287,9 @@ def render_report_builder_page(output_root: Path):
     if project_filter != "All":
         filtered_df = filtered_df[filtered_df["project_id"] == project_filter]
 
+    if category_filter != "All":
+        filtered_df = filtered_df[filtered_df["data_category"] == category_filter]
+
     if type_filter != "All":
         filtered_df = filtered_df[filtered_df["item_type"] == type_filter]
 
@@ -281,6 +302,7 @@ def render_report_builder_page(output_root: Path):
             "queue_index": st.column_config.NumberColumn("Queue", disabled=True),
             "selected": st.column_config.CheckboxColumn("Report?"),
             "status": st.column_config.TextColumn("Status", disabled=True),
+            "data_category": st.column_config.TextColumn("Category", disabled=True),
             "project_id": st.column_config.TextColumn("Project", disabled=True),
             "location_id": st.column_config.TextColumn("Location", disabled=True),
             "item_type": st.column_config.TextColumn("Type", disabled=True),
@@ -288,7 +310,7 @@ def render_report_builder_page(output_root: Path):
             "summary": st.column_config.TextColumn("Summary", disabled=True),
             "dependency": st.column_config.TextColumn("Dependency", disabled=True),
         },
-        key=f"report_builder_selection_editor_{project_filter}_{type_filter}",
+        key=f"report_builder_selection_editor_{project_filter}_{category_filter}_{type_filter}",
     )
 
     _update_items_from_editor(edited)
@@ -381,7 +403,7 @@ def render_report_builder_page(output_root: Path):
     not_ready = [
         item for item in st.session_state.report_builder_items
         if item.get("selected")
-        and item.get("item_type") != "full_ags_audit"
+        and item.get("requires_review")
         and item.get("status") not in ("confirmed", "exported")
     ]
 
