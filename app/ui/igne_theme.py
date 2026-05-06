@@ -364,6 +364,53 @@ hr {
     border-top: 1px solid var(--rs-border);
     margin: 1.25rem 0;
 }
+
+/* Grouped sidebar navigation */
+section[data-testid="stSidebar"] details {
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    margin-bottom: 0.45rem;
+    background: rgba(255,255,255,0.04);
+}
+
+section[data-testid="stSidebar"] summary {
+    font-weight: 850;
+    color: #ffffff !important;
+}
+
+section[data-testid="stSidebar"] .stButton > button {
+    width: 100%;
+    border-radius: 9px;
+    min-height: 2.1rem;
+    padding: 0.25rem 0.55rem;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.06);
+    color: #ffffff !important;
+    text-align: left;
+    justify-content: flex-start;
+    font-weight: 700;
+}
+
+section[data-testid="stSidebar"] .stButton > button:hover {
+    background: rgba(242,201,76,0.20);
+    border-color: rgba(242,201,76,0.75);
+    color: #ffffff !important;
+    transform: none;
+}
+
+section[data-testid="stSidebar"] .stButton > button[data-testid="baseButton-primary"] {
+    background: #f2c94c !important;
+    color: #10251d !important;
+    border-color: #f2c94c !important;
+    font-weight: 850;
+}
+
+section[data-testid="stSidebar"] .stButton > button:disabled {
+    opacity: 0.45;
+    background: rgba(255,255,255,0.03) !important;
+    border-color: rgba(255,255,255,0.08) !important;
+}
+
 </style>
         """,
         unsafe_allow_html=True,

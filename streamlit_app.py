@@ -59,6 +59,114 @@ st.set_page_config(
 
 apply_igne_theme()
 
+# =============================
+# GROUPED SIDEBAR NAVIGATION
+# =============================
+
+SIDEBAR_GROUPS = [
+    {
+        "title": "Data Import",
+        "pages": [
+            "Project Import",
+        ],
+        "coming_soon": [],
+    },
+    {
+        "title": "Project Data",
+        "pages": [
+            "Project Overview",
+            "Data Inventory",
+            "Data Dashboard",
+        ],
+        "coming_soon": [],
+    },
+    {
+        "title": "Reporting",
+        "pages": [
+            "Report Builder",
+            "Soakaway Reports",
+            "DCP Dashboard",
+            "Borehole Engine",
+        ],
+        "coming_soon": [],
+    },
+    {
+        "title": "AGS Tools",
+        "pages": [
+            "Full AGS Report",
+        ],
+        "coming_soon": [
+            "AGS Validator",
+            "AGS Request App",
+            "AGS Split / Merge",
+        ],
+    },
+    {
+        "title": "Miscellaneous",
+        "pages": [
+            "Future Tests",
+        ],
+        "coming_soon": [
+            "Schedule Generator from Excel",
+            "Batch Utility Tools",
+        ],
+    },
+]
+
+
+def _nav_key(label: str) -> str:
+    return "nav_" + "".join(c if c.isalnum() else "_" for c in label.lower())
+
+
+def render_grouped_sidebar() -> str:
+        
+    valid_pages = [
+        page
+        for group in SIDEBAR_GROUPS
+        for page in group["pages"]
+    ]
+
+    if "active_mode" not in st.session_state:
+        st.session_state.active_mode = "Project Import"
+
+    if st.session_state.active_mode not in valid_pages:
+        st.session_state.active_mode = "Project Import"
+
+    current = st.session_state.active_mode
+
+    for group in SIDEBAR_GROUPS:
+        expanded = current in group["pages"]
+
+        with st.sidebar.expander(group["title"], expanded=expanded):
+            for page in group["pages"]:
+                is_active = page == current
+                label = f"▶ {page}" if is_active else page
+
+                clicked = st.button(
+                    label,
+                    key=_nav_key(page),
+                    use_container_width=True,
+                    type="primary" if is_active else "secondary",
+                )
+
+                if clicked:
+                    st.session_state.active_mode = page
+                    st.rerun()
+
+            for item in group.get("coming_soon", []):
+                st.button(
+                    f"{item} · soon",
+                    key=_nav_key("soon_" + item),
+                    use_container_width=True,
+                    disabled=True,
+                )
+
+    st.sidebar.markdown("---")
+    st.sidebar.caption("Upload once. Review once. Export packages.")
+
+    return st.session_state.active_mode
+
+
 
 defaults = {
     "loaded_files": [],
@@ -285,24 +393,8 @@ hero(
     badge="Report Studio Demo",
 )
 
-st.sidebar.markdown("## Report Studio")
-st.sidebar.caption("Demo reporting workflow")
 
-mode = st.sidebar.radio(
-    "Workflow",
-    [
-        "Project Import",
-        "Project Overview",
-        "Data Inventory",
-        "Data Dashboard",
-        "Report Builder",
-        "Soakaway Reports",
-        "DCP Dashboard",
-        "Borehole Engine",
-        "Full AGS Report",
-        "Future Tests",
-    ],
-)
+mode = render_grouped_sidebar()
 
 
 if mode == "Project Import":
